@@ -1,0 +1,21 @@
+{
+  "name": "borgacoin",
+  "version": "0.0.1",
+  "description": "A case study on the blockchain technology",
+  "main": "BorgaCoin.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "BlockChain",
+    "Crypto",
+    "Currency"
+  ],
+  "author": "Andre Bastos",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "eccrypto": "^1.0.3",
+    "elliptic": "^6.4.0"
+  }
+}
