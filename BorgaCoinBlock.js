@@ -1,8 +1,8 @@
-const SHA256 = require("crypto-js/sha256");
-const crypto = require("crypto");
-const eccrypto = require("eccrypto");
+const SHA256 = require('crypto-js/sha256');
+const crypto = require('crypto');
+const eccrypto = require('eccrypto');
 
-let BorgaCoinBlock = function(timeStamp, data, privateKey, publicKey, previousHash = ''){
+let BorgaCoinBlock = function(timeStamp, data, privateKey, publicKey, previousHash = '') {
     return new Promise((resolve, reject) =>{
         let obj = Object.create(BorgaCoinBlock.proto);
         obj.timeStamp = timeStamp;
@@ -20,29 +20,28 @@ let BorgaCoinBlock = function(timeStamp, data, privateKey, publicKey, previousHa
 
 BorgaCoinBlock.proto = {
 
-    calculateHash: function(){
-        return SHA256(this.previousHash + 
-            this.timeStamp + 
+    calculateHash: function() {
+        return SHA256(this.previousHash +
+            this.timeStamp +
             JSON.stringify(this.data) +
             this.nonce).toString();
     },
 
-    signTransaction: function(privateKey){
+    signTransaction: function(privateKey) {
         return new Promise((resolve, reject) => {
-            let transactionToStr = this.previousHash + 
-            this.timeStamp + 
-            JSON.stringify(this.data) 
-            let toSign = crypto.createHash("sha256").
+            let transactionToStr = this.previousHash +
+            this.timeStamp +
+            JSON.stringify(this.data);
+            let toSign = crypto.createHash('sha256').
                 update(transactionToStr).digest().toString();
             eccrypto.sign(privateKey, toSign).then(function(sig) {
-                //console.log("Signature in DER format:", sig);
+                // console.log("Signature in DER format:", sig);
                 resolve(sig);
-              }).catch(function(error){
+              }).catch(function(error) {
                   reject(error);
               });
-        })
-        
-    }
-}
+        });
+    },
+};
 
 module.exports = BorgaCoinBlock;
