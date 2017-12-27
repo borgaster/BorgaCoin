@@ -23,10 +23,7 @@ module.exports = function(app) {
             .then((block) => {
                 borgaCoin.addBlock(block);
                 res.json('{test: OK}');
-            })
-
-        
-        
+            })  
     });
        
     app.route('/latestBlock').get(function(req, res) {

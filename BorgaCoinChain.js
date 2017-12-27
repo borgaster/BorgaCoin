@@ -1,4 +1,4 @@
-let BorgaCoinBlock = require('./BorgaCoinBlock.js');
+const BorgaCoinBlock = require('./BorgaCoinBlock.js');
 const crypto = require('crypto');
 const eccrypto = require('eccrypto');
 
