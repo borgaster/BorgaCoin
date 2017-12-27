@@ -5,11 +5,10 @@ const eccrypto = require('eccrypto');
 let BorgaCoinChain = function(callback) {
     let coinChain = Object.create(BorgaCoinChain.proto);
     coinChain.difficulty = 2;
-    coinChain.publicKey = ''; // Miner's wallet, where reward is credited.
     // A new random 32-byte private key.
     coinChain.privateKey = crypto.randomBytes(32);
     // Corresponding uncompressed (65-byte) public key.
-    coinChain.publicKey = eccrypto.getPublic(privateKey);
+    coinChain.publicKey = eccrypto.getPublic(coinChain.privateKey);
     coinChain.createGenesisBlock().then((obj) => {
         coinChain.chain = [obj];
         callback(coinChain);
@@ -20,7 +19,7 @@ BorgaCoinChain.proto = {
     createGenesisBlock: function() {
         return new Promise((resolve, reject) => {
             BorgaCoinBlock(new Date().getTime()
-            , 'Genesis Block!', privateKey, publicKey, '0').then((coin) =>{
+            , 'Genesis Block!', this.privateKey, this.publicKey, '0').then((coin) =>{
                 this.mineBlock(coin);
                 resolve(coin);
             });
