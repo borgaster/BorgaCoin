@@ -15,10 +15,18 @@ module.exports = function(app) {
     });
     app.route('/send')
     .post(function(req, res) {
-        console.log(req.body);
-        let block = BorgaCoinBlock(new Date().getTime(), {amount: req.body});
-        borgaCoin.addBlock(block);
-        res.json('{test: OK}');
+        BorgaCoinBlock(new Date().getTime(), 
+            req.body.data, 
+            req.body.privateKey.data, 
+            req.body.publicKey.data, 
+            borgaCoin.getLatestBlock().hash)
+            .then((block) => {
+                borgaCoin.addBlock(block);
+                res.json('{test: OK}');
+            })
+
+        
+        
     });
        
     app.route('/latestBlock').get(function(req, res) {

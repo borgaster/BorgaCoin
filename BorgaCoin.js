@@ -1,24 +1,4 @@
-/* let BorgaCoinBlock = require('./BorgaCoinBlock.js');
-let BorgaCoinChain = require('./BorgaCoinChain');
-
-var crypto = require('crypto');
-var eccrypto = require('eccrypto');
-
-// A new random 32-byte private key.
-var privateKey = crypto.randomBytes(32);
-// Corresponding uncompressed (65-byte) public key.
-var publicKey = eccrypto.getPublic(privateKey);
-
-
-BorgaCoinChain((borgaCoin)=>{
-  let lastCoin = borgaCoin.getLatestBlock();
-  BorgaCoinBlock(new Date().getTime(), {amount: 100}, privateKey, publicKey, lastCoin.hash).then((coin) =>{
-    borgaCoin.addBlock(coin);
-    // console.log(borgaCoin.getChain());
-   // console.log(borgaCoin.isChainValid());
-  });
-});
-*/
+//Test api
 const fetch = require('node-fetch');
 let BorgaCoinBlock = require('./BorgaCoinBlock.js');
 const crypto = require('crypto');
@@ -27,32 +7,42 @@ const eccrypto = require('eccrypto');
 const privateKey = crypto.randomBytes(32);
 // Corresponding uncompressed (65-byte) public key.
 const publicKey = eccrypto.getPublic(privateKey);
-const fetchOptions = {
+const fetchOptionsGet = {
   mode: 'no-cors',
   method: 'GET',
   headers: {
     'Accept': 'application/json',
   },
 };
-fetch('http://localhost:3000/getChain', fetchOptions)
+
+const fetchOptionsPost = {
+  headers: {
+    'Accept': 'application/json',
+    'Content-Type': 'application/json'
+  },
+  method: "POST",
+  body: JSON.stringify({privateKey: privateKey, 
+      publicKey: publicKey, 
+      data:{sender:"1234", 
+            receiver:"4321", 
+            amount:100}})
+}
+
+fetch('http://localhost:3000/getChain', fetchOptionsGet)
   .then( (response) => response.json() )
   .then((json) => {
     chain = JSON.parse(json);
-    console.log(chain);
+    //console.log(chain.length);
+    chain.forEach((item) => {
+      console.log(item.hash);
+    })
 });
 
-/*BorgaCoinBlock(new Date().getTime(), {amount: 100}, privateKey, publicKey, lastCoin.hash).then((coin) =>{
-  let options = {
-    uri: 'http://localhost:3000',
-    method: 'POST',
-    json: JSON.stringify(coin),
-  };
-  request(options, function(error, response, body) {
-    if (!error && response.statusCode == 200) {
-      console.log(body.id) // Print the shortened url.
-    }
+fetch('http://localhost:3000/send', fetchOptionsPost)
+  .then((response) => response.json() )
+  .then((json) => {
+    console.log(json);
   });
 
-});*/
 
 

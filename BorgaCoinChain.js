@@ -31,10 +31,10 @@ BorgaCoinChain.proto = {
     },
 
     addBlock: function(newBlock) {
-        this.mineBlock(newBlock);
         this.verifySignature(newBlock).then((result)=>{
             if (result) {
                 console.log('signature OK');
+                this.mineBlock(newBlock);
                 this.chain.push(newBlock);
             } else {
                 console.log('signature is invalid');
