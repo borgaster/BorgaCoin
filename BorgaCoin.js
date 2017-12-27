@@ -1,6 +1,5 @@
 //Test api
 const fetch = require('node-fetch');
-let BorgaCoinBlock = require('./BorgaCoinBlock.js');
 const crypto = require('crypto');
 const eccrypto = require('eccrypto');
 // A new random 32-byte private key.
