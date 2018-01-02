@@ -1,12 +1,12 @@
 'use strict';
-module.exports = function(app) {
-    const BorgaCoinChain = require('./BorgaCoinChain');
+module.exports = function(app, localAddress) {
+    const BorgaCoinChain = require('./BorgaCoinChain.js');
     const BorgaCoinBlock = require('./BorgaCoinBlock.js');
-    let borgaCoin = null;
-    BorgaCoinChain(function(chain) {
-        borgaCoin = chain;
-    });
-    console.log('Request');
+    const servers = ['http://192.168.1.12:3000', 'http://192.168.1.12:3001']
+        .filter(elem => elem !== localAddress);
+    let borgaCoin = BorgaCoinChain(servers);
+    borgaCoin.getLongestChain(servers);
+
     
     app.route('/getChain')
     .get(function(req, res) {
@@ -25,6 +25,11 @@ module.exports = function(app) {
                 res.json('{test: OK}');
             })  
     });
+
+    app.route('/propagate')
+        .post(function(req, res){
+            borgaCoin.addBlock(JSON.parse(req.body.data));
+        })
        
     app.route('/latestBlock').get(function(req, res) {
         res.json(borgaCoin.getLatestBlock());
