@@ -8,9 +8,9 @@ let BorgaCoinBlock = function(timeStamp, data, privateKey, publicKey, previousHa
         obj.timeStamp = timeStamp;
         obj.data = data;
         obj.previousHash = previousHash;
-        obj.hash = BorgaCoinBlock.calculateHash();
         obj.nonce = 0;
         obj.publicKey = publicKey;
+        obj.hash = BorgaCoinBlock.calculateHash(previousHash, timeStamp, data, obj.nonce);
         obj.signTransaction(privateKey).then((sig) =>{
             obj.signature = sig;
             resolve(obj);
@@ -18,12 +18,12 @@ let BorgaCoinBlock = function(timeStamp, data, privateKey, publicKey, previousHa
     });
 };
 
-BorgaCoinBlock.calculateHash = function(previousHash, timeStamp, data, nonce){
-    return SHA256(previousHash 
-        + timeStamp 
-        + JSON.stringify(data) 
+BorgaCoinBlock.calculateHash = function(previousHash, timeStamp, data, nonce) {
+    return SHA256(previousHash
+        + timeStamp
+        + JSON.stringify(data)
         + nonce).toString();
-}
+};
 
 BorgaCoinBlock.proto = {
 

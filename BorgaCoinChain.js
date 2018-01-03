@@ -20,6 +20,7 @@ BorgaCoinChain.proto = {
         const fetchOptionsGet = {
             mode: 'no-cors',
             method: 'GET',
+            timeout: 3000,
             headers: {
               'Accept': 'application/json',
             },
@@ -28,7 +29,9 @@ BorgaCoinChain.proto = {
           nodes.forEach((node) => {
             retreivedChains.push(fetch(node+'/getChain', fetchOptionsGet)
                 .then(result => result.json())
-                .catch( () => {console.log('Offline')})); 
+                .catch( (error) => {
+                    console.log(error.message)
+                })); 
           })
           Promise.all(retreivedChains).then(values => {
             values.forEach((res) => {
@@ -50,7 +53,9 @@ BorgaCoinChain.proto = {
                 console.log('Create genesis block!');
                 this.createGenesisBlock();
             }  
-          })
+          }).catch((error) => {
+              console.log(error)
+          } )
     },
 
     propagateNewBlock: function(nodes, block) {
@@ -60,12 +65,14 @@ BorgaCoinChain.proto = {
               'Content-Type': 'application/json'
             },
             method: "POST",
+            timeout:3000,
             body: JSON.stringify(block)
           }
           let resultBlockProagationPromise = []
           nodes.forEach((item) => {
               resultBlockProagationPromise
-                .push(fetch(item+'/propagate', fetchOptionsPost))
+                .push(fetch(item+'/propagate', fetchOptionsPost)
+                    .catch(error => console.log(error.message)));
           });
           Promise.all(resultBlockProagationPromise)
             .then((values) =>{
@@ -154,7 +161,7 @@ BorgaCoinChain.proto = {
     mineBlock: function(newBlock) {
         while (newBlock.hash.substring(0, this.difficulty) !== Array(this.difficulty + 1).join('0')) {
             newBlock.nonce++;
-            newBlock.hash = BorgaCoinBlock.calculateHash();
+            newBlock.hash = BorgaCoinBlock.calculateHash(newBlock.previousHash, newBlock.timeStamp, newBlock.data, newBlock.nonce);
         }
         console.log('BLOCK MINED: ' + newBlock.hash);
         // TODO: add reward to miner's public key
