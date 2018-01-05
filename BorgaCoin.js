@@ -23,12 +23,12 @@ const fetchOptionsPost = {
       data:{sender:"1234", 
             receiver:"4321", 
             amount:100}})
-}
+};
 
 fetch('http://localhost:3000/getChain', fetchOptionsGet)
   .then( (response) => response.json() )
   .then((json) => {
-    chain = JSON.parse(json);
+    let chain = JSON.parse(json);
     //console.log(chain.length);
     chain.forEach((item) => {
       console.log(item.hash);
