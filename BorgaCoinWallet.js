@@ -5,7 +5,7 @@ const eccrypto = require('eccrypto');
 let BorgaCoinWallet = function() {
     let wallet = Object.create(BorgaCoinWallet.proto);
     wallet.privateKey = crypto.randomBytes(32);
-    wallet.publicKey = eccrypto.getPublic(privateKey);
+    wallet.publicKey = eccrypto.getPublic(wallet.privateKey);
     wallet.transactions = [];
 };
 

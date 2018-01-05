@@ -1,4 +1,3 @@
-//Test api
 const fetch = require('node-fetch');
 const crypto = require('crypto');
 const eccrypto = require('eccrypto');
@@ -11,28 +10,33 @@ const fetchOptionsGet = {
     'Accept': 'application/json',
   },
 };
+const bodyToString = JSON.stringify(
+  {
+    privateKey: privateKey,
+    publicKey: publicKey,
+    data: {
+            sender: '1234',
+            receiver: '4321',
+            amount: 100,
+          },
+  });
 
 const fetchOptionsPost = {
   headers: {
     'Accept': 'application/json',
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   },
-  method: "POST",
-  body: JSON.stringify({privateKey: privateKey, 
-      publicKey: publicKey, 
-      data:{sender:"1234", 
-            receiver:"4321", 
-            amount:100}})
+  method: 'POST',
+  body: bodyToString,
 };
 
 fetch('http://localhost:3000/getChain', fetchOptionsGet)
   .then( (response) => response.json() )
   .then((json) => {
     let chain = JSON.parse(json);
-    //console.log(chain.length);
     chain.forEach((item) => {
       console.log(item.hash);
-    })
+    });
 });
 
 fetch('http://localhost:3000/send', fetchOptionsPost)
@@ -40,6 +44,3 @@ fetch('http://localhost:3000/send', fetchOptionsPost)
   .then((json) => {
     console.log(json);
   });
-
-
-
