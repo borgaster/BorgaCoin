@@ -33,7 +33,7 @@ BorgaCoinChain.proto = {
           });
           Promise.all(retreivedChains).then((values) => {
             values.forEach((res) => {
-                if (res !== undefined) {
+                if (typeof(res) !== 'undefined') {
                     let newChain = JSON.parse(res);
                     if (newChain.length > this.chain.length) {
                         console.log('got longest chain');

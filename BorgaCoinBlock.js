@@ -40,7 +40,7 @@ function BorgaCoinBlock(timeStamp,
                     resolve(obj);
                 });
         });
-};
+}
 
 BorgaCoinBlock.calculateHash = function(previousHash, timeStamp, data, nonce) {
     return sha256(previousHash
