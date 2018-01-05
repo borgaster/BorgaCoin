@@ -6,9 +6,7 @@ const fetch = require('node-fetch');
 let BorgaCoinChain = function(nodes) {
     let coinChain = Object.create(BorgaCoinChain.proto);
     coinChain.difficulty = 2;
-    // A new random 32-byte private key.
     coinChain.privateKey = crypto.randomBytes(32);
-    // Corresponding uncompressed (65-byte) public key.
     coinChain.publicKey = eccrypto.getPublic(coinChain.privateKey);
     coinChain.chain = [];
     coinChain.nodes = nodes;

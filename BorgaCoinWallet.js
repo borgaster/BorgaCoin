@@ -29,3 +29,4 @@ BorgaCoinWallet.proto = {
         }, 0);
     },
 };
+

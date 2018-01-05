@@ -1,4 +1,4 @@
-const SHA256 = require('crypto-js/sha256');
+const sha256 = require('crypto-js/sha256');
 const crypto = require('crypto');
 const eccrypto = require('eccrypto');
 
@@ -19,7 +19,7 @@ let BorgaCoinBlock = function(timeStamp, data, privateKey, publicKey, previousHa
 };
 
 BorgaCoinBlock.calculateHash = function(previousHash, timeStamp, data, nonce) {
-    return SHA256(previousHash
+    return sha256(previousHash
         + timeStamp
         + JSON.stringify(data)
         + nonce).toString();

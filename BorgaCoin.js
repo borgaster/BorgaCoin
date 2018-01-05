@@ -2,9 +2,7 @@
 const fetch = require('node-fetch');
 const crypto = require('crypto');
 const eccrypto = require('eccrypto');
-// A new random 32-byte private key.
 const privateKey = crypto.randomBytes(32);
-// Corresponding uncompressed (65-byte) public key.
 const publicKey = eccrypto.getPublic(privateKey);
 const fetchOptionsGet = {
   mode: 'no-cors',

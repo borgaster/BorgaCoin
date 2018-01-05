@@ -7,12 +7,12 @@ module.exports = function(app, localAddress) {
     let borgaCoin = BorgaCoinChain(servers);
     borgaCoin.getLongestChain(servers);
 
-    
     app.route('/getChain')
     .get(function(req, res) {
         let chain = borgaCoin.getChain();
         res.json(JSON.stringify(chain));
     });
+
     app.route('/send')
     .post(function(req, res) {
         BorgaCoinBlock(new Date().getTime(), 

@@ -9,5 +9,4 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 routes(app, localAddress); // register the route
 app.listen(port);
-
 console.log('RESTful API server started on: ' + port);
