@@ -97,11 +97,13 @@ BorgaCoinChain.proto = {
         this.verifySignature(newBlock).then((result)=>{
             if (result) {
                 console.log('signature OK');
-                this.mineBlock(newBlock);
+                if(newBlock.nonce === 0) {
+                    this.mineBlock(newBlock);
+                    this.propagateNewBlock(this.nodes, newBlock);
+                }
                 this.chain.push(newBlock);
                 if (this.isChainValid(this.chain)) {
                     console.log('Chain is valid after new block');
-                    this.propagateNewBlock(this.nodes, newBlock);
                 } else {
                     console.log('Chain is no longer valid');
                     this.chain.pop();

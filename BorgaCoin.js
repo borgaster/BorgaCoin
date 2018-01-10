@@ -30,7 +30,13 @@ const fetchOptionsPost = {
   body: bodyToString,
 };
 
-fetch('http://localhost:3000/getChain', fetchOptionsGet)
+fetch('http://localhost:3001/send', fetchOptionsPost)
+  .then((response) => response.json() )
+  .then((json) => {
+    console.log(json);
+  });
+
+fetch('http://localhost:3001/getChain', fetchOptionsGet)
   .then( (response) => response.json() )
   .then((json) => {
     let chain = JSON.parse(json);
@@ -39,8 +45,4 @@ fetch('http://localhost:3000/getChain', fetchOptionsGet)
     });
 });
 
-fetch('http://localhost:3000/send', fetchOptionsPost)
-  .then((response) => response.json() )
-  .then((json) => {
-    console.log(json);
-  });
+

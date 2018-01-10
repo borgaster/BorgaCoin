@@ -27,7 +27,9 @@ module.exports = function(app, localAddress) {
 
     app.route('/propagate')
         .post(function(req, res) {
-            borgaCoin.addBlock(JSON.parse(req.body.data));
+            let block = req.body;
+            block.signature = req.body.signature.data;
+            borgaCoin.addBlock(block);
         });
 
     app.route('/latestBlock').get(function(req, res) {
