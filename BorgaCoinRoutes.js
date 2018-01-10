@@ -35,4 +35,9 @@ module.exports = function(app, localAddress) {
     app.route('/latestBlock').get(function(req, res) {
         res.json(borgaCoin.getLatestBlock());
     });
+
+    app.route('/isNodeAlive')
+        .get((req, res) => {
+            res.json(localAddress);
+        });
 };
